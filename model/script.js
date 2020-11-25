@@ -11,11 +11,6 @@ let l2 = 100;
 let N = 0;
 let PHI, THETA;
 
-control = () => {
-    draw(PHI[N], THETA[N]);
-    N++;
-};
-
 prepareData = (text) => {
     let phiValues = [];
     let thetaValues = [];
@@ -38,8 +33,14 @@ fetchData = () => {
             let theta = data[1];
             PHI = phi;
             THETA = theta;
-            setInterval(control, 100);
-        })
+            let timer = setInterval(() => {
+                draw(PHI[N], THETA[N]);
+                N++;
+                if (PHI[N] === undefined || THETA[N] === undefined) {
+                    clearInterval(timer);
+                }
+            }, 100);
+        });
 };
 
 readFile = (input) => {
