@@ -20,8 +20,8 @@ prepareData = (text) => {
     let phiValues = [];
     let thetaValues = [];
     let tmp = text.split(/\r?\n/);
-    
-    for (let i = 0; i < tmp.length; i++){
+
+    for (let i = 0; i < tmp.length; i++) {
         let pair = tmp[i].split(";");
         phiValues.push(parseFloat(pair[0]));
         thetaValues.push(parseFloat(pair[1]));
@@ -29,18 +29,27 @@ prepareData = (text) => {
     return [phiValues, thetaValues];
 };
 
+fetchData = () => {
+    fetch("http://localhost:8080", {method: "GET"})
+        .then(response => response.text())
+        .then(text => {
+            let data = prepareData(text);
+            let phi = data[0];
+            let theta = data[1];
+            PHI = phi;
+            THETA = theta;
+            setInterval(control, 100);
+        })
+};
+
 readFile = (input) => {
     let file = input.files[0];
     let reader = new FileReader();
     reader.readAsText(file);
 
-    reader.onload = function() {
+    reader.onload = function () {
         let data = prepareData(reader.result);
-        let phi = data[0];
-        let theta = data[1];
-        PHI = phi;
-        THETA = theta;
-        setInterval(control, 100);
+
     };
 };
 
