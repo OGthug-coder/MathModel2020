@@ -8,8 +8,45 @@
 </head>
 <body>
     <div class="main">
+        <div>Количество шагов</div>
+        <input id="steps" type="range" min=10 max=1000 step=1>
+        <div class="controls">
+            <div>
+                <div>Угол 1</div>
+                <input id="angle_1" value=30 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Масса 1</div>
+                <input id="m_1" value=1 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Длина 1</div>
+                <input id="l_1" value=1 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Скорость 1</div>
+                <input id="speed_1" value=0 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Угол 2</div>
+                <input id="angle_2" value=0 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Масса 2</div>
+                <input id="m_2" value=1 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Длина 2</div>
+                <input id="l_2" value=1 type="number" step="0.1">
+            </div>
+            <div>
+                <div>Скорость 2</div>
+                <input id="speed_2" value=0 type="number" step="0.1">
+            </div>
+        </div>
         <button onclick="fetchData()">Start</button>
-        <canvas id="canvas" width="1000" height="1000"></canvas>
+        <button onclick="stopModel()">Stop</button>
+        <canvas id="canvas" width="700" height="700"></canvas>
     </div>
     <script src="script.js"></script>
 </body>

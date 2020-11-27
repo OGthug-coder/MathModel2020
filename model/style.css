@@ -8,3 +8,12 @@ canvas {
     justify-content: center;
     align-items: center;
 }
+
+.controls {
+    display: grid;
+    width: min-content;
+    height: min-content;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+}
