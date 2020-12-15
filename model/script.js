@@ -26,23 +26,16 @@ prepareData = (text) => {
     return [phiValues, thetaValues];
 };
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 77fb0ecc7a020d35893abb1d97271a4428cb9be8
 stopModel = () => {
     clearInterval(timer);
     N = 0;
 };
 
-<<<<<<< HEAD
 startModel = () => {
-   if (N !== 0) stopModel()
+    if (N !== 0) stopModel()
     fetchData();
 };
 
-=======
->>>>>>> 77fb0ecc7a020d35893abb1d97271a4428cb9be8
 fetchData = () => {
     let body = {
         steps: document.getElementById("steps").value,
