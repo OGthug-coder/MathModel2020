@@ -32,3 +32,6 @@
 *.app
 
 *.png
+
+#idea
+.idea
