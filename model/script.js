@@ -29,18 +29,28 @@ prepareData = (text) => {
     return [phiValues, thetaValues];
 };
 
-readFile = (input) => {
-    let file = input.files[0];
-    let reader = new FileReader();
-    reader.readAsText(file);
 
-    reader.onload = function() {
-        let data = prepareData(reader.result);
-        let phi = data[0];
-        let theta = data[1];
-        PHI = phi;
-        THETA = theta;
-        setInterval(control, 100);
+stopModel = () => {
+    clearInterval(timer);
+    N = 0;
+};
+
+startModel = () => {
+   if (N !== 0) stopModel()
+    fetchData();
+};
+
+fetchData = () => {
+    let body = {
+        steps: document.getElementById("steps").value,
+        l_1: document.getElementById("l_1").value,
+        l_2: document.getElementById("l_2").value,
+        m_1: document.getElementById("m_1").value,
+        m_2: document.getElementById("m_2").value,
+        angle_1: document.getElementById("angle_1").value,
+        angle_2: document.getElementById("angle_2").value,
+        speed_1: document.getElementById("speed_1").value,
+        speed_2: document.getElementById("speed_2").value
     };
 };
 
