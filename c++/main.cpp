@@ -3,9 +3,6 @@
 #include <fstream>
 #include "double_pendulum.hpp"
 
-void pendulum_loop(int steps, std::ofstream data) {
-    
-}
 
 int main(){
     int steps = 100;
