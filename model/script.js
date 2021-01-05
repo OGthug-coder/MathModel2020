@@ -59,7 +59,7 @@ fetchData = () => {
 
     console.log(body);
 
-    fetch("http://localhost:8080", {method: "POST", body: JSON.stringify(body)})
+    fetch("http://localhost:8085", {method: "POST", body: JSON.stringify(body)})
         .then(response => response.text())
         .then(text => {
             let data = prepareData(text);
