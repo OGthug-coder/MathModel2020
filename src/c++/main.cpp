@@ -1,78 +1,8 @@
-#include <random>
 #include <iostream>
 #include <fstream>
-#include "double_pendulum.hpp"
+#include <string>
+#include "double_pendulum.cpp"
 
-
-dp::state derive(const dp::state& st, const dp::system& ss) noexcept {
-        const double delta = st.theta.second - st.theta.first;
-        const double mass  = ss.mass.first + ss.mass.second;
-
-        double s = sin(delta);
-        double c = cos(delta);
-
-        double denominator = mass * ss.length.first - 
-            ss.mass.second * ss.length.first * c * c;
-
-        dp::state derivative{{st.omega.first, st.omega.second}, {0, 0}};
-
-        derivative.omega.first 
-            = ss.mass.second * ss.length.first * st.omega.first * st.omega.first
-                * s * c
-            + ss.mass.second * dp::g * sin(st.theta.second) * c
-            + ss.mass.second * ss.length.second * st.omega.second 
-                * st.omega.second * s
-            - mass * dp::g * sin(st.theta.first);
-
-        derivative.omega.first /= denominator;
-
-        denominator *= ss.length.second / ss.length.first;           
-
-        derivative.omega.second
-            = - ss.mass.second * ss.length.second * st.omega.second
-                * st.omega.second * s * c
-            + mass * dp::g * sin(st.theta.first) * c
-            - mass * ss.length.first * st.omega.first * st.omega.first * s
-            - mass * dp::g * sin(st.theta.second);
-
-        derivative.omega.second /= denominator;
-
-        return derivative;
-    }
-
-    dp::state rk4(const dp::state& st, const dp::system& ss) noexcept {
-        dp::state dydx = derive(st, ss);
-        dp::state k1   = dp::dt * dydx;
-        dp::state yt   = st + 0.5 * k1;
-        
-              dydx = derive(yt, ss);
-        dp::state k2   = dp::dt * dydx;
-              yt   = st + 0.5 * k2;
-
-              dydx = derive(yt, ss);
-        dp::state k3   = dp::dt * dydx;
-              yt   = st + k3;
-
-              dydx = derive(yt, ss);
-        dp::state k4   = dp::dt * dydx;
-        
-        return 
-            st + (1.0 / 6) * k1 + (1.0 / 3) * k2 + 
-                 (1.0 / 3) * k3 + (1.0 / 6) * k4;
-    }
-
-    dp::state advance(const dp::state& st, const dp::system& ss, double time) noexcept {
-        double passed = 0.0;
-
-        dp::state ret = st;
-
-        do {
-            ret = rk4(ret, ss);
-            passed += dp::dt;
-        } while (passed < time);
-
-        return ret;
-    }
 
 int main(){
     int steps;
@@ -100,15 +30,35 @@ int main(){
     dp::system ss{{m1, m2}, {l1, l2}};
 
     int k = 0;
+    bool calculations = true;
 
-    while (k < steps){
-        k++;
-        // std::cout << "1st: " << st.theta.first << "; 2nd: " << st.theta.second << std::endl;
-        file << st.theta.first << ";" << st.theta.second << std::endl;
-        st = advance(st, ss, 0.2);
+    while (calculations){
+        while (k < steps){
+            k++;
+            std::cout << "1st: " << st.theta.first << "; 2nd: " << st.theta.second << std::endl;
+            file << st.theta.first << ";" << st.theta.second << std::endl;
+            st = advance(st, ss, 0.2);
+        }
+
+        std::cout << "Would you like to continue calculations? (y/n)" << std::endl;
+        std::string command;
+        std::cin >> command;
+    
+        if (command == "y"){
+            std::cout << "How many additional steps would you like to execute?" << std::endl;
+            int _steps;
+            std::cin >> _steps;
+            k = 0;
+            steps = _steps;
+            calculations = true;
+        } else if (command == "n"){
+            calculations = false;
+        }
     }
+    
 
     file.close();
+    std::cout << "Finishing calculations" << std::endl;
 
     return 0;
 }
