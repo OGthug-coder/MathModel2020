@@ -151,16 +151,11 @@
 
 
     draw = (phi, theta, l1, l2) => {
-        l2 = l2 / l1 * 100;
+        let canvas_width = 350;
+        let ratio = l2/l1;
+        l2 = canvas_width / (ratio + 1);
+        l1 = ratio * l2;
 
-        l1 = 100;
-        if (l2 > 200) {
-            l2 = l2 / l1 * 50;
-            l1 = 50;
-        } else if (l2 > 300) {
-            l2 = l2 / l1 * 25;
-            l1 = 25;
-        }
         ctx.clearRect(0, 0, 700, 700);
 
         ctx.beginPath();
