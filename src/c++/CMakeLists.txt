@@ -1,21 +1,15 @@
-cmake_minimum_required(VERSION 3.1)
-project(MathModel2020 VERSION 1.0.0)
+cmake_minimum_required(VERSION 2.8)	 # Проверка версии CMake.
+										# Если версия установленой программы
+										# старее указаной, произайдёт аварийный выход.
 
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+project(MathModel2020)			# Название проекта
 
-if(MSVC)
-    add_compile_options(/W4)
-else()
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
-endif()
+set(SOURCE_EXE main.cpp)		# Установка переменной со списком исходников для исполняемого файла
 
+set(SOURCE_LIB double_pendulum.cpp)			# Тоже самое, но для библиотеки
 
-set(MYLIB_HEADERS
-	double_pendulum.hpp
-    )
+add_library(dp STATIC ${SOURCE_LIB})	# Создание статической библиотеки с именем foo
 
-#add_library(libusv ${MYLIB_HEADERS})
+add_executable(main ${SOURCE_EXE})	# Создает исполняемый файл с именем main
 
-add_executable(myprogram main.cpp)
+target_link_libraries(main dp)		# Линковка программы с библиотекой
